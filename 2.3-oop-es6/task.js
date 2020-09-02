@@ -1,5 +1,5 @@
 class Weapon {
-	constructor(name,attack,dirability,range) {
+	constructor(Weapon) {
 		this.name = name;
 		this.attack = attack;
 		this.dirability = dirability;
@@ -14,30 +14,30 @@ class Weapon {
 
   getDamage() {
     if (this.durability === 0) {return 0}
-    else if (this.durability >= 0.3 * this.durabilityFull) {return this.attack} 
+    else if (this.durability >= 0.3 * this.durability) {return this.attack} 
     else {return this.attack / 2};
   }
 
   isBroken() {
-    if (this.durability > 0) {return False}
-    else {return True}
+    if (this.durability > 0) {return false}
+    else {return true}
   }
 
 }
 
-const hand =  new Weapon("Рука", 1, Infinity, 1);
+const arm =  new Weapon("Рука", 1, Infinity, 1);
 const bow  =  new Weapon("Лук", 10, 200, 3);
 const sword = new Weapon("Меч", 25, 500, 1);
 const knife = new Weapon("Нож", 5, 300, 1);
 const staff = new Weapon("Посох", 8, 300, 2);
 
-const bowLong    = new Weapon("Длинный лук", 15, 200, 4);
+const longBow    = new Weapon("Длинный лук", 15, 200, 4);
 const ax         = new Weapon("Секира", 27, 800, 1);
 const staffStorm = new Weapon("Посох", 10, 300, 3);
 
-console.log(hand.durability);
-hand.takeDamage(5);
-console.log(hand.durability);
+console.log(arm.durability);
+arm.takeDamage(5);
+console.log(arm.durability);
 
 console.log(bow.durability);
 bow.takeDamage(200);
@@ -46,7 +46,7 @@ bow.takeDamage(200);
 console.log(bow.durability);
 
 // Обычное оружие
-class Hand extends Weapon {
+class Arm extends Weapon {
   constructor(name = "Рука", attack = 1, durability = Infinity, range = 1) {
     super(name, attack, durability, range);
   }
@@ -77,7 +77,7 @@ class Hand extends Weapon {
    }
 
    // Усиленное оружие
-   class BowLong extends Bow {
+   class LongBow extends Bow {
     constructor() {
       super("Длинный лук", 15, undefined, 4);
     }
@@ -96,22 +96,22 @@ class Hand extends Weapon {
    }
 
 
-const hand2 =  new Hand();
+const arm2 =  new Arm();
 const bow2  =  new Bow();
 const sword2 = new Sword();
 const knife2 = new Knife();
 const staff2 = new Staff();
 
-const bowLong2    = new BowLong();
+const longBow2    = new LongBow();
 const ax2         = new Ax();
 const staffStorm2 = new StaffStorm();
 
-console.log(hand2);
+console.log(arm2);
 console.log(bow2);
 console.log(sword2);
 console.log(knife2);
 console.log(staff2);
 
-console.log(bowLong2);
+console.log(longBow2);
 console.log(ax2);
 console.log(staffStorm2);
