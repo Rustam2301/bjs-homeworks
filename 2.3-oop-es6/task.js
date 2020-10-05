@@ -1,5 +1,5 @@
 class Weapon {
-	constructor(Weapon) {
+	constructor(name, attack, durability, range) {		
 		this.name = name;
 		this.attack = attack;
 		this.durability = durability;
@@ -15,7 +15,7 @@ class Weapon {
 
   getDamage() {
     if (this.durability === 0) {return 0}
-    else if (this.durability >= 0.3 * this.maxDurability) {return this.attack} 
+    else if (this.durability >= this.maxDurability * 0.3) {return this.attack} 
     else {return this.attack / 2};
   }
 
@@ -112,7 +112,7 @@ class Arm extends Weapon {
     }
    }
 
-   class Ax extends Sword {
+   class Axe extends Sword {
     constructor() {
       super();
       this.name = "Секира";
@@ -121,7 +121,7 @@ class Arm extends Weapon {
     }
    }
 
-   class StaffStorm extends Staff {
+   class StormStaff extends Staff {
     constructor() {
       super();
       this.name = "Посох бури";
@@ -138,8 +138,8 @@ const knife2 = new Knife();
 const staff2 = new Staff();
 
 const longBow2    = new LongBow();
-const ax2         = new Ax();
-const staffStorm2 = new StaffStorm();
+const axe2         = new Axe();
+const staffStorm2 = new StormStaff();
 
 console.log(arm2);
 console.log(bow2);
@@ -148,5 +148,5 @@ console.log(knife2);
 console.log(staff2);
 
 console.log(longBow2);
-console.log(ax2);
+console.log(axe2);
 console.log(staffStorm2);
