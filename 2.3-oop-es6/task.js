@@ -1,17 +1,16 @@
 class Weapon {
-	constructor(name, attack, durability, range) {		
-		this.name = name;
-		this.attack = attack;
-		this.durability = durability;
-		this.maxDurability = durability;
-		this.range = range;
+	constructor(weapon) {		
+		this.name = weapon.name;
+		this.attack = weapon.attack;
+		this.durability = weapon.durability;
+		this.maxDurability = this.durability;
+		this.range = weapon.range;
 	}
 
 	takeDamage(damage) {
-      if (this.durability === Infinity) {return}
-      else if (this.durability > damage) {durability -= damage}
-      else {this.durability = 0};
-  }
+		this.durability -= damage;
+    if (this.durability < 0) {this.durability = 0;}
+	}
 
   getDamage() {
     if (this.durability === 0) {return 0}
@@ -25,26 +24,6 @@ class Weapon {
   }
 
 }
-
-const arm =  new Weapon("Рука", 1, Infinity, 1);
-const bow  =  new Weapon("Лук", 10, 200, 3);
-const sword = new Weapon("Меч", 25, 500, 1);
-const knife = new Weapon("Нож", 5, 300, 1);
-const staff = new Weapon("Посох", 8, 300, 2);
-
-const longBow    = new Weapon("Длинный лук", 15, 200, 4);
-const ax         = new Weapon("Секира", 27, 800, 1);
-const staffStorm = new Weapon("Посох", 10, 300, 3);
-
-console.log(arm.durability);
-arm.takeDamage(5);
-console.log(arm.durability);
-
-console.log(bow.durability);
-bow.takeDamage(200);
-console.log(bow.durability);
-bow.takeDamage(200);
-console.log(bow.durability);
 
 // Обычное оружие
 class Arm extends Weapon {
@@ -102,6 +81,8 @@ class Arm extends Weapon {
     }
    }
 
+
+
    // Усиленное оружие
    class LongBow extends Bow {
     constructor() {
@@ -131,7 +112,11 @@ class Arm extends Weapon {
    }
 
 
+
 const arm2 =  new Arm();
+arm2.getDamage(20);
+console.log(arm2.durability);
+
 const bow2  =  new Bow();
 const sword2 = new Sword();
 const knife2 = new Knife();
@@ -140,6 +125,16 @@ const staff2 = new Staff();
 const longBow2    = new LongBow();
 const axe2         = new Axe();
 const staffStorm2 = new StormStaff();
+
+console.log(arm.durability);
+arm.takeDamage(5);
+console.log(arm.durability);
+
+console.log(bow.durability);
+bow.takeDamage(200);
+console.log(bow.durability);
+bow.takeDamage(200);
+console.log(bow.durability);
 
 console.log(arm2);
 console.log(bow2);
