@@ -1,14 +1,16 @@
+'use strict';
+
 //String.prototype.isPalindrome - для задачи №1
 
-function getAnimalSound(animal) {
-
-	if (animal === undefined) {
-		return null;
-	}
-	
-	let sound = animal.sound;
-	return sound;
-	
+String.prototype.isPalindrome = function(){
+    let newString = this.toLowerCase().split(' ').join('');
+    for(let i = newString.length - 1, a = 0; i >= 0 ; i--){
+        if(newString[i] !== newString[a]){
+            return false;
+        }
+        a++;
+    }
+    return true;
 }
 
 
@@ -26,14 +28,16 @@ function getAverageMark(marks) {
 }
 
 function checkBirthday(birthday) {
-    // код для задачи №3 писать здесь
-    let now = new Date();
-    let birthday = Date.parse(birthday);
-    let diff = now - birthday;    
-    const msInYear = Number(3.154e+10 + 2.16e+7);
-    let age = Math.floor(diff/msInYear);
+    let now  = Date.now();
+    birthday = new Date(birthday).getTime();
+    let timestampOneYear = 1000 * 60 * 60 * 24 * (365 * 4 + 1) / 4;
+    // let timestampOneYear2 = 1000 * 60 * 60 * 24 * (365 * 4 + 1);
+    let diff = now - birthday;
+    let age = diff / timestampOneYear;
 
-    if (age >= 18) {return 'Совершеннолетний'};
-    return 'Нет';
-    // return verdict
+    if ( age > 18 ) {
+        return true;
+    }
+    
+    return false;
 }
