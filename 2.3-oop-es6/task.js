@@ -1,147 +1,209 @@
-class Weapon {
-	constructor(weapon) {		
-		this.name = weapon.name;
-		this.attack = weapon.attack;
-		this.durability = weapon.durability;
-		this.maxDurability = this.durability;
-		this.range = weapon.range;
-	}
+// Задание 1
 
-	takeDamage(damage) {
-		this.durability -= damage;
-    if (this.durability < 0) {this.durability = 0;}
-	}
+class PrintEditionItem {
+	constructor(name, releaseDate, pagesCount) {
+		this.name = name;  
+    	this.releaseDate = releaseDate; 
+    	this.pagesCount = pagesCount;
+    	this.state = 100;
+    	this.type = null;
+	}    
 
-  getDamage() {
-    if (this.durability === 0) {return 0}
-    else if (this.durability >= this.maxDurability * 0.3) {return this.attack} 
-    else {return this.attack / 2};
-  }
 
-  isBroken() {
-    if (this.durability > 0) {return false}
-    else {return true}
-  }
+	fix () {
+        let fixState = this.state * 1.5;
+        
+        this.state = fixState < 0 ? 0 : fixState > 100 ? 100 : fixState;
+    }
 
+		set state(state) {
+        	state = state < 0 ? 0 : state > 100 ? 100 : state;
+        	this._state = state;
+	    	}
+	
+		get state() {
+	        return this._state;
+	    	}
 }
 
-// Обычное оружие
-class Arm extends Weapon {
-  constructor() {
-    super({
-    	name: "Рука",
-    	attack: 1,
-    	durability: Infinity,
-    	range: 1
-    });
-  }
- }
-
- class Bow extends Weapon {
-    constructor() {
-      super({
-      	name: "Лук",
-      	attack: 10,
-      	durability: 200,
-      	range: 3
-      });
+class Magazine extends PrintEditionItem {
+    constructor (name, releaseDate, pagesCount) {
+        super(name, releaseDate, pagesCount);
+        this.type = 'magazine';
     }
-   }
+}
 
-   class Sword extends Weapon {
-    constructor() {
-      super({
-      	name: "Меч",
-      	attack: 25,
-      	durability: 500,
-      	range: 1
-      });
+class Book extends PrintEditionItem {
+    constructor (author, name, releaseDate, pagesCount) {
+        super(name, releaseDate, pagesCount);
+        this.author = author;
+        this.type = 'book';
     }
-   }
+}
 
-   class Knife extends Weapon {
-    constructor() {
-      super({
-      	name: "Нож",
-      	attack: 5,
-      	durability: 300,
-      	range: 1
-      });
+class NovelBook extends Book {
+    constructor (author, name, releaseDate, pagesCount) {
+        super(author, name, releaseDate, pagesCount);
+        this.type = 'novel';
     }
-   }
+}
 
-   class Staff extends Weapon {
-    constructor() {
-      super({
-      	name: "Посох",
-      	attack: 8,
-      	durability: 300,
-      	range: 2
-      });
+class FantasticBook extends Book {
+    constructor (author, name, releaseDate, pagesCount) {
+        super(author, name, releaseDate, pagesCount);
+        this.type = 'fantastic';
     }
-   }
+}
 
-
-
-   // Усиленное оружие
-   class LongBow extends Bow {
-    constructor() {
-      super();
-      this.name = "Длинный лук";
-      this.attack = 15;
-      this.range = 4;
+class DetectiveBook extends Book {
+    constructor (author, name, releaseDate, pagesCount) {
+        super(author, name, releaseDate, pagesCount);
+        this.type = 'detective';
     }
-   }
+}
 
-   class Axe extends Sword {
-    constructor() {
-      super();
-      this.name = "Секира";
-      this.attack = 27;
-      this.durability = 800;
+const sherlock = new PrintEditionItem("Полное собрание повестей и рассказов о Шерлоке Холмсе в одном томе", 2019, 1008);
+
+console.log(sherlock.releaseDate);
+console.log(sherlock.state);
+sherlock.fix();
+console.log(sherlock.state);
+
+// Задание 2
+
+class Library {
+    constructor (name) {
+        this.name = name;
+        this.books = [];
     }
-   }
 
-   class StormStaff extends Staff {
-    constructor() {
-      super();
-      this.name = "Посох бури";
-      this.attack = 10;
-      this.range = 3;
+    addBook(book) {
+        if(book.state > 30) {
+            this.books.push(book);
+        }
     }
-   }
 
+    findBookBy(type, value) {
+        let zap = this.books.find(function(elem) {
+            if(elem[type] == value) {
+                return true;
+            }
+            return false;
+        });
 
+        return zap != undefined ? zap : null;
+    }
 
-const arm2 =  new Arm();
-arm2.getDamage(20);
-console.log(arm2.durability);
+    giveBookByName(bookName) {
+        let book = this.books.find(function(elem) {
+            return elem.name == bookName ? true : false;
+        });
+        
+        if(book) {
+            this.books = this.books.filter(item => item.name != book.name);
+            return book;
+        }
 
-const bow2  =  new Bow();
-const sword2 = new Sword();
-const knife2 = new Knife();
-const staff2 = new Staff();
+        return null;
+    }
+}
 
-const longBow2    = new LongBow();
-const axe2         = new Axe();
-const staffStorm2 = new StormStaff();
+const library = new Library("Библиотека имени Ленина");
 
-console.log(arm.durability);
-arm.takeDamage(5);
-console.log(arm.durability);
+library.addBook(new DetectiveBook("Артур Конан Дойл", "Полное собрание повестей и рассказов о Шерлоке Холмсе в одном томе", 2019, 1008));
+library.addBook(new FantasticBook("Аркадий и Борис Стругацкие", "Пикник на обочине", 1972, 168));
+library.addBook(new NovelBook("Герберт Уэллс", "Машина времени", 1895, 138));
+library.addBook(new Magazine("Мурзилка", 1924, 60));
 
-console.log(bow.durability);
-bow.takeDamage(200);
-console.log(bow.durability);
-bow.takeDamage(200);
-console.log(bow.durability);
+console.log(library.findBookBy("name", "Властелин колец")); //null
+console.log(library.findBookBy("releaseDate", 1924).name); //"Мурзилка"
 
-console.log(arm2);
-console.log(bow2);
-console.log(sword2);
-console.log(knife2);
-console.log(staff2);
+console.log("Количество книг до выдачи: " + library.books.length); //Количество книг до выдачи: 4
+library.giveBookByName("Машина времени");
+console.log("Количество книг после выдачи: " + library.books.length); //Количество книг после выдачи: 3
 
-console.log(longBow2);
-console.log(axe2);
-console.log(staffStorm2);
+// Задача 3
+
+class StudentLog {
+    constructor (name) {
+        this.name = name;
+        this.subjects = {
+            algebra: [],
+            geometry: [],
+            math: []
+        };
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    addGrade(grade, subject) {
+
+        if(typeof(grade) != 'number' || grade < 1 || grade > 5 || !this.subjects[subject]) {
+            return `Вы пытались поставить оценку "${grade}" по предмету "${subject}". Допускаются только числа от 1 до 5`;
+        }
+
+        if( (grade >= 1 && grade <= 5) && this.subjects[subject] ) {
+            this.subjects[subject].push(grade);
+        }
+
+        return this.subjects[subject].length;
+    }
+
+    
+    getAverageBySubject(subject, result = 0) {
+        if(this.subjects[subject] && this.subjects[subject].length > 0) {
+            const reducer = (accumulator, currentValue) => accumulator + currentValue;
+            result = this.subjects[subject].reduce(reducer) / this.subjects[subject].length;
+        }
+        return result;
+    }
+
+    getTotalAverage() {
+        let avg = [];
+        let result = 0;
+        for (const key in this.subjects) {
+            if(this.subjects[key].length > 0) {
+                avg.push(
+                    this.subjects[key].map(function(n) {
+                        return n;
+                    })
+                );
+            }
+        }
+
+        let countOfGrade = 0;
+        for (const iterator of avg) {
+            if(typeof(iterator) == 'object') {
+                for (const qwe of iterator) {
+                    countOfGrade += 1;
+                    result += qwe;
+                }
+            }
+        }
+
+        return result / countOfGrade;
+    }
+}
+
+const log = new StudentLog('Олег Никифоров');
+console.log(log.getName())
+console.log(log.addGrade(3, 'algebra'));
+console.log(log.addGrade('qweqwe', 'algebra'));
+console.log(log.addGrade(4, 'algebra'));
+console.log(log.addGrade(5, 'geometry'));
+console.log(log.addGrade('fsdfsdf', 'geometry'));
+console.log(log.addGrade(5, 'geometry'));
+console.log(log.addGrade(25, 'geometry'));
+
+log.addGrade(2, 'algebra');
+log.addGrade(4, 'algebra');
+log.addGrade(5, 'geometry');
+log.addGrade(4, 'geometry');
+
+console.log(log.getAverageBySubject('geometry')); // 4.5
+console.log(log.getAverageBySubject('algebra')); // 3
+console.log(log.getAverageBySubject('math')); // 0
+
+console.log(log.getTotalAverage());
